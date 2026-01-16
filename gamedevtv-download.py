@@ -46,6 +46,18 @@ def parse_ranges(input_string):
                 click.echo(f"Invalid item: {part}", err=True)
     return sorted(list(selected_items))
 
+def login(driver):
+    element = driver.find_element(By.ID, "email")
+    element.send_keys(sys.argv[2])
+
+    element = driver.find_element(By.ID, "password")
+    element.send_keys(sys.argv[4])
+
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+
+    # Letting the website complete the request.
+    time.sleep(5)
+
 def main():
     # Checking usage.
     if len(sys.argv) != 5:
@@ -57,9 +69,12 @@ def main():
         sys.exit(1)
 
     browser_options = Options()
-    browser_options.add_argument("--headless")
-    browser_options.add_argument("--disable-gpu")
+    # browser_options.add_argument("--headless")
+    browser_options.add_argument("--disable-dev-shm-usage")
     browser_options.add_argument("--no-sandbox")
+    browser_options.add_argument("--disable-gpu")
+    browser_options.add_argument("--disable-extensions")
+    browser_options.add_argument("--start-maximized")
 
     # Booting Selenium.
     driver = webdriver.Chrome(options=browser_options)
@@ -76,16 +91,7 @@ def main():
 
     time.sleep(2)
 
-    element = driver.find_element(By.ID, "email")
-    element.send_keys(sys.argv[2])
-
-    element = driver.find_element(By.ID, "password")
-    element.send_keys(sys.argv[4])
-
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-    # Letting the website complete the request.
-    time.sleep(5)
+    login(driver)
 
     # Obtain all courses.
     dashboard_html = driver.page_source
@@ -130,6 +136,13 @@ def main():
         
         # Creating a directory for this lesson.
         os.makedirs(f"{course}", exist_ok=True)
+
+        WebDriverWait(driver, 30).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+        time.sleep(5)
+
         driver.get(f"https://gamedev.tv/courses/{course}/view")
 
         # Waiting for the sidebar to load up.
@@ -215,7 +228,8 @@ def main():
                     m3u8_url
                 ])
 
-        driver.quit()
+    # Finished downloading all courses.
+    driver.quit()
 
 if __name__ == "__main__":
     main()
