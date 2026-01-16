@@ -10,7 +10,9 @@ A Python tool used to download your purchased courses on [GameDev.tv](https://ga
 pip install selenium-wire
 ```
 
-3. I recommend that you create a virtual environment to manage dependencies separately:
+3. **yt-dlp** (2025.12.8 - Tested Version): This tool is used to convert/download the course videos into MP4 files. They will default to 1080p.
+
+I recommend that you create a virtual environment to manage dependencies separately:
 
 ```bash
 python3 -m venv venv
