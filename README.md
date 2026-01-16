@@ -62,7 +62,7 @@ Starting download for unreal-game-feel...
 ### Important Notes:
 - Pagination does not work with this script. Anything that appears on the first page of your Dashboard will be detected. I do not have enough courses to implement pagination yet. This script will be updated when I can fully test it.
 - Having a fast internet connection is important. If your internet is too slow, and it takes 30+ seconds to load a course, it will be skipped. You will be missing content.
-- This was only tested on Linux. Windows/MacOS 
+- This was only tested on Linux. I haven't personally tested this on Windows/MacOS.
 
 ### Collaboration:
 - Feel free to open any issues if you have troubles with the script, and I will do my best to respond and patch the issues.
